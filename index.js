@@ -82,6 +82,31 @@ app.post('/fetchVideo',async (req,res)=>{
     return res.json(contents.length)
   }
 })
+
+app.post('/fetchVideoget',async (req,res)=>{
+  const{auth}=req.body
+  const data=JSON.parse(auth)
+  await seedr.login(data.email,data.password);
+  var contents = await seedr.getVideos();
+  let videos=[]
+  if(contents.length>0){
+    console.log("fetching......")
+    console.log(contents[0].length)
+    for(var i=0;i<contents[0].length;i++){
+    let n=await seedr.getFile(contents[0][i].id).then((e)=>{
+      console.log("fetched....")
+      e.id=i
+      videos.push(e)
+    })
+  }
+  console.log(videos.length)
+  console.log("consoled")
+  return res.json(videos)
+  }
+  else{
+    return res.json(contents.length)
+  }
+})
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
