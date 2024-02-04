@@ -128,6 +128,13 @@ app.get('/movierulz/:id', (req, res) => {
   </center>
   `)
 });
+
+app.get('/version',(req,res)=>{
+  const version="1.0.0"
+  const link="https://www.google.com"
+  res.json({version:version,link:link})
+})
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
