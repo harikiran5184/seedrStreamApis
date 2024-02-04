@@ -111,25 +111,23 @@ app.post('/fetchVideoget',async (req,res)=>{
     return res.json(contents.length)
   }
 })
-app.get('/movierulz', (req, res) => {
-  // Assuming movieId is retrieved from somewhere
-  const movieId = req.query.movieId || 'defaultMovieId';
+app.get('/movierulz/:id', (req, res) => {
+  const movieId = req.params.id;
+  const queryParams = req.query;
 
-  // Read the HTML template file
-  fs.readFile('movie-details.html', 'utf8', (err, data) => {
-      if (err) {
-          console.error('Error reading HTML template:', err);
-          return res.status(500).send('Internal Server Error');
-      }
-
-      // Replace placeholders with dynamic data
-      const modifiedHtml = data.replace(/{{ movieId }}/g, movieId);
-
-      // Send the modified HTML as a response
-      res.send(modifiedHtml);
-  });
+  // Render the 'movie.ejs' template and pass data to it
+  res.send(`
+  <center>
+  <h1>Movie Details</h1>
+  <p>Movie ID: ${movieId}</p>
+  <a href='movierulz://movie/${movieId}'>
+      <button style="width: max-content;height: max-content;border-radius: 40px;background-color: rgba(194, 47, 153, 0.449);cursor:pointer">
+          <h1>Open in App</h1>
+      </button>
+  </a>
+  </center>
+  `)
 });
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
