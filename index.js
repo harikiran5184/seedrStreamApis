@@ -8,6 +8,9 @@ const port = 3000;
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+app.set('view engine', 'ejs'); // Set EJS as the template engine
+app.use(express.urlencoded({ extended: true }));
+app.use(express.static('public'));
 
 async function getdata(){
   await seedr.getVideos().then(async (res)=>{
@@ -25,8 +28,6 @@ app.post('/',async (req,res)=>{
   const data=JSON.parse(auth)
     await seedr.login(data.email,data.password);
     console.log(JSON.parse(auth))
-    // await seedr.addMagnet("magnet:?xt=urn:btih:0f6d62c4c5aa5d296ed9efad13489bc6efaf4c7d&dn=www.5MovieRulz.top%20-%20Animal%20(2023)%20Telugu%20DVDScr%20x264%20AAC%20300MB.mkv&tr=udp%3a%2f%2ftracker.openbittorrent.com%3a80%2fannounce&tr=udp%3a%2f%2ftracker.opentrackr.org%3a1337%2fannounce&tr=udp%3a%2f%2fp4p.arenabg.com%3a1337%2fannounce&tr=udp%3a%2f%2ftracker.torrent.eu.org%3a451%2fannounce&tr=udp%3a%2f%2ftracker.dler.org%3a6969%2fannounce&tr=udp%3a%2f%2fopen.stealth.si%3a80%2fannounce&tr=udp%3a%2f%2fopentracker.i2p.rocks%3a6969%2fannounce&tr=http%3a%2f%2ftracker.gbitt.info%3a80%2fannounce&tr=udp%3a%2f%2ftracker.tiny-vps.com%3a6969%2fannounce&tr=udp%3a%2f%2fmovies.zsw.ca%3a6969%2fannounce");
-    // Starts downloading, wait till that happens
     var contents = await seedr.getVideos();
     let ne;
     
@@ -107,6 +108,14 @@ app.post('/fetchVideoget',async (req,res)=>{
     return res.json(contents.length)
   }
 })
+app.get('/movierulz/:id', (req, res) => {
+  const movieId = req.params.id;
+  const queryParams = req.query;
+
+  // Render the 'movie.ejs' template and pass data to it
+  res.render('movie', { movieId: movieId });
+});
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
