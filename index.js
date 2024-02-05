@@ -125,13 +125,7 @@ app.get('/movierulz/:id', (req, res) => {
           <h1>Open in App</h1>
       </button>
   </a>
-  </center>
-  `)
-});
-
-app.get('/version',(req,res)=>{
-  const version="1.0.0"
-  const link="https://www.google.com"
+  </centehttps://drive.google.com/file/d/1SofbQuIlYW8ShA1DMcpmwQCzUhqTw0xr/view?usp=drivesdkhttps://drive.google.com/file/d/1SofbQuIlYW8ShA1DMcpmwQCzUhqTw0xr/view?usp=drivesdk"
   res.json({version:version,link:link})
 })
 app.get('/live',(req,res)=>{
