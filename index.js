@@ -134,7 +134,10 @@ app.get('/version',(req,res)=>{
   const link="https://www.google.com"
   res.json({version:version,link:link})
 })
-
+app.get('/live',(req,res)=>{
+ const link="https://www.google.com"
+  res.json({link:link})
+})
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
