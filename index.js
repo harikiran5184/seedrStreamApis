@@ -135,7 +135,7 @@ app.get('/version',(req,res)=>{
   res.json({version:version,link:link})
 })
 app.get('/live',(req,res)=>{
- const link="https://www.google.com"
+ const link="https://cricstreaming.github.io/Hindi"
   res.json({link:link})
 })
 app.listen(port, () => {
