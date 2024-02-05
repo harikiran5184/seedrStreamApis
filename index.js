@@ -127,7 +127,7 @@ app.get('/movierulz/:id', (req, res) => {
   </a>
   </center>`)})
 app.get('version',(req,res)=>{
-  const version="1.5.0";
+  const version="2.0.0";
   const link="https://drive.google.com/file/d/1SofbQuIlYW8ShA1DMcpmwQCzUhqTw0xr/view?usp=drivesdk";
   res.json({version:version,link:link})
 })
