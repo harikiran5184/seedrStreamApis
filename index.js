@@ -154,8 +154,8 @@ app.get('/adminmovie/:id', (req, res) => {
 });
 
 app.get('/version',(req,res)=>{
-  const version="1.1.0";
-  const link="https://drive.google.com/file/d/1SofbQuIlYW8ShA1DMcpmwQCzUhqTw0xr/view?usp=drivesdk";
+  const version="3.0.0";
+  const link="https://drive.google.com/file/d/1p7x8en9R8xTbLOB3NXG4zJt8oksw6llA/view?usp=sharing";
   res.json({version:version,link:link})
 })
 app.get('/live',(req,res)=>{
