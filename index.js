@@ -128,7 +128,7 @@ app.get('/movierulz/:id', (req, res) => {
   <center>
   <h1>Movie Details</h1>
   <p>Movie ID: ${movieId}</p>
-  <a href='movierulz://movie/${movieId.slice(4,movieId.length)}'>
+  <a href='movierulz://movie/${movieId.slice(0,movieId.length)}'>
       <button style="width: max-content;height: max-content;border-radius: 40px;background-color: rgba(194, 47, 153, 0.449);cursor:pointer">
           <h1>Open in App</h1>
       </button>
