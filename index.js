@@ -134,6 +134,25 @@ app.get('/movierulz/:id', (req, res) => {
       </button>
   </a>
   </center>`)})
+
+app.get('/adminmovie/:id', (req, res) => {
+  const movieId = req.params.id;
+  const queryParams = req.query;
+  console.log(movieId)
+  // Render the 'movie.ejs' template and pass data to it
+  res.send(`
+  <center>
+  <h1>Movie Details</h1>
+  <p>Movie ID: ${movieId}</p>
+  <a href='movierulz://adminmovie/${movieId}'>
+      <button style="width: max-content;height: max-content;border-radius: 40px;background-color: rgba(194, 47, 153, 0.449);cursor:pointer">
+          <h1>Open in App</h1>
+      </button>
+  </a>
+  </center>
+  `)
+});
+
 app.get('/version',(req,res)=>{
   const version="1.1.0";
   const link="https://drive.google.com/file/d/1SofbQuIlYW8ShA1DMcpmwQCzUhqTw0xr/view?usp=drivesdk";
