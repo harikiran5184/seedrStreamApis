@@ -6,6 +6,14 @@ const fs = require('fs');
 const seedr=new Seedr()
 const app = express();
 const port = 3000;
+const mongoose=require('mongoose');
+const movieModel = require('./models/movieModel');
+
+const data=mongoose.connect('mongodb+srv://hari:hari@cluster0.1socvoq.mongodb.net/movierulz',{ useNewUrlParser: true, useUnifiedTopology: true }).then((res)=>{
+  console.log("connected")
+}).catch(()=>{
+  console.log("connection failed")
+})
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -135,6 +143,62 @@ app.get('/live',(req,res)=>{
  const link="https://cricstreaming.github.io/Hindi"
   res.json({link:link})
 })
+
+app.get('/movies/:id',async (req,res)=>{
+  const id=req.params.id
+  console.log(id)
+  const data=await movieModel.find({_id:id.toString()})
+  console.log(data)
+  res.json(data[0])
+})
+
+app.get('/allmovies',async (req,res)=>{
+  const data=await movieModel.aggregate([
+    {
+  $project:{
+  "description":0,
+  "torrent":0,
+  "__v":0
+  }
+  }
+  ])
+
+  res.json({data:data})
+})
+
+app.post('/addmovies',async (req,res)=>{
+  const {description,image,title,torrent,size,quality,cast}=req.body
+  const des=description
+  const img= image
+  const tle= title
+  const cas=cast
+
+const torr=[]
+for(i=0;i<torrent.length;i++){
+  try{
+  var subdata={magnet:torrent[i],quality:quality[i],size:size[i]}
+  torr.push(subdata)
+  }
+  catch{
+    console.log("torrent error")
+  }
+}
+
+
+const url= "https://ww3.5movierulz.vet/happy-ending-2024-dvdscr-telugu-full-movie-watch-online-free/"
+
+  const data=await movieModel({description:des,image:img,title:tle,torrent:torr,url,cast:JSON.stringify(cas)})
+  const added=await data.save()
+  console.log(added._id)
+  if(added._id){
+    res.json({status:true})
+  }
+  else{
+    res.json({status:false})
+  }
+})
+
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
