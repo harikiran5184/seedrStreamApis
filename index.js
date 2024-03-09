@@ -155,7 +155,7 @@ app.get('/adminmovie/:id', (req, res) => {
 
 app.get('/version',(req,res)=>{
   const version="4.0.0";
-  const link="https://drive.google.com/file/d/19-g9ekPN9MiGji3dysrqYWYDSG4VxG5x/view?usp=drive_link";
+  const link="https://drive.google.com/file/d/19-g9ekPN9MiGji3dysrqYWYDSG4VxG5x/view?usp=sharing";
   res.json({version:version,link:link})
 })
 app.get('/live',(req,res)=>{
