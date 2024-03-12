@@ -156,7 +156,8 @@ app.get('/adminmovie/:id', (req, res) => {
 app.get('/version',(req,res)=>{
   const version="4.0.0";
   const link="https://drive.google.com/file/d/19-g9ekPN9MiGji3dysrqYWYDSG4VxG5x/view?usp=drivesdk";
-  res.json({version:version,link:link})
+  const whatsnews=['changes in bottom bar','Make it more responsive for some devices']
+  res.json({version:version,link:link,whatsnews:whatsnews})
 })
 app.get('/live',(req,res)=>{
  const link="https://cricstreaming.github.io/Hindi"
