@@ -154,7 +154,7 @@ app.get('/adminmovie/:id', (req, res) => {
 });
 
 app.get('/version',(req,res)=>{
-  const version="4.0.1";
+  const version="4.0.2";
   const link="https://drive.google.com/file/d/1hu5CuZyF2Yvn9hDj1Yxz4k6dhvioYZFd/view?usp=sharing";
   const whatsnews=['changes in bottom bar','Make it more responsive for some devices']
   res.json({version:version,link:link,whatsnews:whatsnews})
