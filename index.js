@@ -157,9 +157,9 @@ app.get('/adminmovie/:id', (req, res) => {
   `)
 });
 app.get('/version', (req, res) => {
-  const version = "1.0.0"
-  const link = "https://www.google.com"
-  const whatsnews = ['changes in bottom bar', 'Make it more responsive for some devices']
+  const version = "5.1.0"
+  const link = "https://drive.google.com/file/d/1ofPnAQd74FgWnjj-6gkMBcLsYAYTYPDH/view?usp=drivesdk"
+  const whatsnews = ['This update with Ui', 'Make it more responsive for some devices', 'added some features', 'This only for development purpose not for regular. ']
   res.json({ version: version, link: link, whatsnews: whatsnews })
 })
 
