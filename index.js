@@ -97,31 +97,72 @@ app.post('/fetchVideo', async (req, res) => {
     return res.json(contents.length)
   }
 })
-
 app.post('/fetchVideoget', async (req, res) => {
-  const { auth } = req.body
-  const data = JSON.parse(auth)
-  await seedr.login(data.email, data.password);
-  var contents = await seedr.getVideos();
-  let videos = []
-  if (contents.length > 0) {
-    console.log("fetching......")
-    console.log(contents[0].length)
-    for (var i = 0; i < contents[0].length; i++) {
-      let n = await seedr.getFile(contents[0][i].id).then((e) => {
-        console.log("fetched....")
-        e.id = i
-        videos.push(e)
-      })
+  const { auth } = req.body;
+
+  if (!auth) {
+    return res.json({
+      status: false,
+      message: "Auth data missing"
+    });
+  }
+
+  const data = JSON.parse(auth);
+
+  try {
+    // ✅ Step 1: Login
+    console.log("Logging in...");
+    await seedr.login(data.email, data.password);
+
+    // ✅ Step 2: Get videos list
+    const contents = await seedr.getVideos();
+
+    if (!contents || contents.length === 0) {
+      return res.json({
+        status: true,
+        videos: [],
+        message: "No videos found"
+      });
     }
-    console.log(videos.length)
-    console.log("consoled")
-    return res.json(videos)
+
+    console.log("Fetching video details...");
+
+    // ✅ Step 3: Fetch all file details in parallel
+    const requests = contents[0].map((item, index) => {
+      return seedr.getFile(item.id) // 🔥 IMPORTANT: use SDK method
+        .then((fileData) => ({
+          id: index,
+          file_id: item.id,
+          ...fileData
+        }))
+        .catch((err) => {
+          console.log(`Error fetching file ${item.id}:`, err.message);
+          return null;
+        });
+    });
+
+    // ✅ Step 4: Wait for all requests
+    const results = await Promise.all(requests);
+
+    // ✅ Step 5: Remove failed ones
+    const videos = results.filter(v => v !== null);
+
+    console.log(`Fetched ${videos.length} videos`);
+
+    // ✅ Step 6: Send response
+    return res.json(videos);
+
+  } catch (err) {
+    console.log("Error:", err.message);
+
+    return res.json({
+      status: false,
+      message: "Something went wrong while login or fetching data"
+    });
   }
-  else {
-    return res.json(contents.length)
-  }
-})
+});
+
+
 app.get('/movierulz/:id', (req, res) => {
   const movieId = req.params.id;
   const queryParams = req.query;
@@ -265,15 +306,15 @@ app.post('/decryptAuthentication', async (req, res) => {
       const token = requeset_token?.token
       const bytes = CryptoJS.AES.decrypt(token, "ninjahattorie")
       let originalText = bytes.toString(CryptoJS.enc.Utf8);
-      originalText=(JSON.parse(originalText))
-      if(originalText.status){
-        if(isFutureDate(originalText.futureDate)){
+      originalText = (JSON.parse(originalText))
+      if (originalText.status) {
+        if (isFutureDate(originalText.futureDate)) {
           res.json({ message: "Token is Valid", status: true })
-            }
-        else{
+        }
+        else {
           res.json({ message: "Token is Expired", status: false })
         }
-      }else{
+      } else {
         res.json({ message: "Please Provide Correct Token", status: false })
       }
     }
